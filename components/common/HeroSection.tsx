@@ -39,7 +39,7 @@ export const HeroSection = () => {
             </div>
 
             <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-              <Link href="/book">
+              <Link href="/booking">
                 <Button size="lg" className="w-full text-lg shadow-xl shadow-primary/20">
                   Book Pickup & Delivery
                 </Button>

@@ -159,7 +159,7 @@ export default function HomePage() {
           <SectionHeader
             title="How It Works"
             subtitle="Simple, fast, and convenient. Four easy steps to perfectly clean clothes."
-            className="text-white"
+            invert
           />
 
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -231,7 +231,7 @@ export default function HomePage() {
             Available for homes, hotels, and offices.
           </p>
           <div className="flex flex-col justify-center gap-6 sm:flex-row">
-            <Link href="/book">
+            <Link href="/booking">
               <Button size="lg" variant="secondary" className="h-16 px-10 text-xl shadow-2xl">
                 Book a Wash Now
               </Button>

@@ -53,7 +53,7 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href="/book" className="hidden sm:block">
+          <Link href="/booking" className="hidden sm:block">
             <Button variant="primary" className="shadow-lg shadow-primary/20">
               Book Now
             </Button>
@@ -84,7 +84,7 @@ const Header = () => {
               {link.name}
             </Link>
           ))}
-          <Link href="/book" onClick={() => setIsOpen(false)}>
+          <Link href="/booking" onClick={() => setIsOpen(false)}>
             <Button variant="primary" className="w-full h-14 text-lg">
               Book a Wash
             </Button>
