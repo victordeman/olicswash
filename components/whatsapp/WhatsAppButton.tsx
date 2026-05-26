@@ -2,15 +2,25 @@ import React from 'react'
 import { MessageCircle } from 'lucide-react'
 
 const WhatsAppButton = () => {
+  const phoneNumber = "2348032399944"
+  const message = "Hello OLICS WASH, I want to book a laundry service."
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+
   return (
     <a
-      href="https://wa.me/2340000000000"
+      href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-success text-white shadow-lg transition-transform hover:scale-110 active:scale-95"
+      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition-all hover:scale-110 hover:rotate-6 active:scale-95 group"
       aria-label="Chat on WhatsApp"
     >
-      <MessageCircle className="h-8 w-8" />
+      <div className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+      <MessageCircle className="h-9 w-9" />
+
+      {/* Tooltip */}
+      <span className="absolute right-20 scale-0 rounded-lg bg-navy px-4 py-2 text-sm font-bold text-white transition-all group-hover:scale-100 whitespace-nowrap">
+        Chat with us!
+      </span>
     </a>
   )
 }
