@@ -6,13 +6,15 @@ interface SectionHeaderProps {
   subtitle?: string
   align?: 'left' | 'center'
   className?: string
+  invert?: boolean
 }
 
 export const SectionHeader = ({
   title,
   subtitle,
   align = 'center',
-  className
+  className,
+  invert = false
 }: SectionHeaderProps) => {
   return (
     <div className={cn(
@@ -20,11 +22,17 @@ export const SectionHeader = ({
       align === 'center' ? "text-center" : "text-left",
       className
     )}>
-      <h2 className="text-3xl font-bold tracking-tight text-navy sm:text-4xl md:text-5xl">
+      <h2 className={cn(
+        "text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl",
+        invert ? "text-white" : "text-navy"
+      )}>
         {title}
       </h2>
       {subtitle && (
-        <p className="mx-auto max-w-[700px] text-lg text-gray-500 md:text-xl">
+        <p className={cn(
+          "mx-auto max-w-[700px] text-lg md:text-xl",
+          invert ? "text-gray-300" : "text-gray-500"
+        )}>
           {subtitle}
         </p>
       )}

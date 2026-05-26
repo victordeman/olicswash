@@ -93,15 +93,21 @@ enum PaymentStatus {
 
 model Order {
   id               String        @id @default(cuid())
-  userId           String
-  user             User          @relation(fields: [userId], references: [id])
+  userId           String?
+  user             User?         @relation(fields: [userId], references: [id])
+  customerName     String?
+  customerPhone    String?
   status           OrderStatus   @default(PENDING)
   totalAmount      Decimal
   paymentStatus    PaymentStatus @default(UNPAID)
   paymentReference String?
   pickupAddress    String
   deliveryAddress  String
-  whatsappNumber   String
+  pickupDate       DateTime?
+  pickupTime       String?
+  deliveryDate     DateTime?
+  deliveryTime     String?
+  whatsappNumber   String?
   orderItems       OrderItem[]
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
