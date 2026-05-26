@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, Phone, MapPin, Globe } from 'lucide-react'
 import { FaFacebookF, FaInstagram, FaXTwitter } from 'react-icons/fa6'
 
 const Footer = () => {
@@ -44,30 +44,37 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="mb-6 text-lg font-bold text-white uppercase tracking-wider">Our Services</h4>
+            <h4 className="mb-6 text-lg font-bold text-white uppercase tracking-wider">Our Locations</h4>
             <ul className="space-y-4 text-gray-400">
-              <li className="font-medium">Premium Dry Cleaning</li>
-              <li className="font-medium">Wash & Fold</li>
-              <li className="font-medium">Steam Ironing</li>
-              <li className="font-medium">Curtain & Rug Cleaning</li>
-              <li className="font-medium">Corporate Services</li>
+              <li className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-primary-bright shrink-0" />
+                <span>14 Khana Street, D/Line, Port Harcourt</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-primary-bright shrink-0" />
+                <span>33 Igboukwu Street, D/Line, Port Harcourt</span>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-6 text-lg font-bold text-white uppercase tracking-wider">Contact Us</h4>
+            <h4 className="mb-6 text-lg font-bold text-white uppercase tracking-wider">Contact Details</h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-gray-400">
-                <MapPin className="h-5 w-5 text-primary-bright shrink-0" />
-                <span>Port Harcourt, Rivers State, Nigeria</span>
+              <li className="flex items-center gap-3 text-gray-400">
+                <Phone className="h-5 w-5 text-primary-bright shrink-0" />
+                <span>0811 442 2088</span>
               </li>
               <li className="flex items-center gap-3 text-gray-400">
                 <Phone className="h-5 w-5 text-primary-bright shrink-0" />
-                <span>+234 803 239 9944</span>
+                <span>0810 869 0772</span>
               </li>
               <li className="flex items-center gap-3 text-gray-400">
                 <Mail className="h-5 w-5 text-primary-bright shrink-0" />
-                <span>info@olicswash.com</span>
+                <span className="text-sm">olicslimited@gmail.com</span>
+              </li>
+              <li className="flex items-center gap-3 text-gray-400">
+                <Globe className="h-5 w-5 text-primary-bright shrink-0" />
+                <span className="text-sm">www.olics.com.ng</span>
               </li>
             </ul>
           </div>
