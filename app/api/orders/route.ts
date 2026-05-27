@@ -18,6 +18,9 @@ export async function POST(req: Request) {
       services
     } = body;
 
+    // Create the order
+    // Note: We check if user exists or create a guest record if we had that logic,
+    // for now we store customer details directly on the order.
     const order = await prisma.order.create({
       data: {
         customerName: fullName,
@@ -26,7 +29,7 @@ export async function POST(req: Request) {
         deliveryAddress,
         totalAmount,
         status: "PENDING",
-        paymentStatus: "PAID",
+        paymentStatus: "PAID", // Initial state after client-side Paystack success
         paymentReference,
         pickupDate: new Date(pickupDate),
         pickupTime,

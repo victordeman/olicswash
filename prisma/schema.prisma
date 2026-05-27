@@ -100,7 +100,7 @@ model Order {
   status           OrderStatus   @default(PENDING)
   totalAmount      Decimal
   paymentStatus    PaymentStatus @default(UNPAID)
-  paymentReference String?
+  paymentReference String?       @unique
   pickupAddress    String
   deliveryAddress  String
   pickupDate       DateTime?

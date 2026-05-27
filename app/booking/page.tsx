@@ -7,7 +7,7 @@ import * as z from "zod";
 import {
   Shirt, Wind, Package, Truck, Home, User, Layers, ShieldCheck,
   ChevronRight, ChevronLeft, Calendar, MapPin,
-  Phone, User as UserIcon, CheckCircle2, CreditCard, Loader2
+  Phone, User as UserIcon, CheckCircle2, CreditCard, Loader2, Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,7 @@ const bookingSchema = z.object({
     quantity: z.number().min(1),
   })).min(1, "Please select at least one service"),
   fullName: z.string().min(3, "Full name is required"),
+  email: z.string().email("Valid email is required"),
   phone: z.string().min(10, "Valid phone number is required"),
   whatsappNumber: z.string().optional(),
   pickupAddress: z.string().min(10, "Pickup address is required"),
@@ -55,10 +56,15 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  const { register, control, handleSubmit, watch, formState: { errors }, trigger } = useForm<BookingFormValues>({
+  const { register, control, handleSubmit, watch, formState: { errors }, trigger, setValue } = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       services: [],
+      fullName: "",
+      email: "",
+      phone: "",
+      pickupAddress: "",
+      deliveryAddress: "",
       pickupDate: "",
       pickupTime: "",
       deliveryDate: "",
@@ -79,7 +85,7 @@ export default function BookingPage() {
     if (step === 1) {
       isValid = await trigger("services");
     } else if (step === 2) {
-      isValid = await trigger(["fullName", "phone", "pickupAddress", "deliveryAddress", "pickupDate", "pickupTime", "deliveryDate", "deliveryTime"]);
+      isValid = await trigger(["fullName", "email", "phone", "pickupAddress", "deliveryAddress", "pickupDate", "pickupTime", "deliveryDate", "deliveryTime"]);
     } else {
       isValid = true;
     }
@@ -99,6 +105,17 @@ export default function BookingPage() {
     }
   };
 
+  const updateQuantity = (id: string, delta: number) => {
+    const index = selectedServices.findIndex(s => s.id === id);
+    if (index === -1) return;
+
+    const newQty = Math.max(1, selectedServices[index].quantity + delta);
+    const updatedServices = [...selectedServices];
+    updatedServices[index] = { ...updatedServices[index], quantity: newQty };
+
+    setValue("services", updatedServices);
+  };
+
   const handlePayment = async (data: BookingFormValues) => {
     setIsSubmitting(true);
     try {
@@ -106,7 +123,7 @@ export default function BookingPage() {
       const paystack = new PaystackPop();
       paystack.newTransaction({
         key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || '',
-        email: "customer@example.com",
+        email: data.email,
         amount: subtotal * 100,
         currency: 'NGN',
         onSuccess: async (transaction: { reference: string }) => {
@@ -177,25 +194,42 @@ export default function BookingPage() {
                   <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {ALL_SERVICES.map((service) => {
-                        const isSelected = selectedServices.some(s => s.id === service.id);
+                        const selectedService = selectedServices.find(s => s.id === service.id);
+                        const isSelected = !!selectedService;
                         return (
                           <div
                             key={service.id}
-                            onClick={() => toggleService(service)}
                             className={cn(
-                              "cursor-pointer rounded-2xl border-2 p-6 transition-all hover:border-primary",
+                              "rounded-2xl border-2 p-6 transition-all hover:border-primary",
                               isSelected ? "border-primary bg-primary/5" : "border-gray-100 bg-white"
                             )}
                           >
                             <div className="flex items-center gap-4">
-                              <div className={cn("rounded-xl p-3", isSelected ? "bg-primary text-white" : "bg-gray-100 text-primary")}>
+                              <div
+                                onClick={() => toggleService(service)}
+                                className={cn("cursor-pointer rounded-xl p-3", isSelected ? "bg-primary text-white" : "bg-gray-100 text-primary")}
+                              >
                                 <service.icon className="h-6 w-6" />
                               </div>
-                              <div className="flex-grow">
+                              <div className="flex-grow cursor-pointer" onClick={() => toggleService(service)}>
                                 <h4 className="font-bold text-navy">{service.name}</h4>
                                 <p className="text-sm font-black text-primary">₦{service.price.toLocaleString()}</p>
                               </div>
-                              {isSelected && <CheckCircle2 className="h-6 w-6 text-primary" />}
+                              {isSelected && (
+                                <div className="flex items-center gap-3 bg-white rounded-xl border p-1">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); updateQuantity(service.id, -1); }}
+                                    className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-gray-100 font-bold"
+                                  >-</button>
+                                  <span className="font-black text-navy min-w-[20px] text-center">{selectedService.quantity}</span>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); updateQuantity(service.id, 1); }}
+                                    className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-gray-100 font-bold"
+                                  >+</button>
+                                </div>
+                              )}
                             </div>
                           </div>
                         );
@@ -215,6 +249,14 @@ export default function BookingPage() {
                           <Input {...register("fullName")} placeholder="John Doe" className="pl-10 h-12 rounded-xl" />
                         </div>
                         {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName.message}</p>}
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="font-bold">Email Address</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                          <Input {...register("email")} placeholder="john@example.com" className="pl-10 h-12 rounded-xl" />
+                        </div>
+                        {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
                       </div>
                       <div className="space-y-2">
                         <Label className="font-bold">Phone Number</Label>

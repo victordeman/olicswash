@@ -11,15 +11,15 @@ const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition-all hover:scale-110 hover:rotate-6 active:scale-95 group"
+      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#22C55E] text-white shadow-2xl transition-all hover:scale-110 hover:rotate-6 active:scale-95 group"
       aria-label="Chat on WhatsApp"
     >
-      <div className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20" />
+      <div className="absolute inset-0 rounded-full bg-[#22C55E] animate-ping opacity-20" />
       <MessageCircle className="h-9 w-9" />
 
       {/* Tooltip */}
-      <span className="absolute right-20 scale-0 rounded-lg bg-navy px-4 py-2 text-sm font-bold text-white transition-all group-hover:scale-100 whitespace-nowrap">
-        Chat with us!
+      <span className="absolute right-20 scale-0 rounded-2xl bg-navy px-5 py-3 text-sm font-bold text-white transition-all group-hover:scale-100 whitespace-nowrap shadow-xl">
+        Chat with us! 👋
       </span>
     </a>
   )
