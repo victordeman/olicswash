@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -28,8 +29,8 @@ const config: Config = {
           bright: "#00A3FF",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#00A3FF",
+          foreground: "#FFFFFF",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -43,6 +44,7 @@ const config: Config = {
         success: {
           DEFAULT: "#22C55E",
           foreground: "#FFFFFF",
+          bright: "#00C853",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -54,13 +56,21 @@ const config: Config = {
         navy: {
           DEFAULT: "#0F172A",
           dark: "#020617",
+          light: "#1E293B",
         },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
+        "4xl": "2rem",
       },
+      boxShadow: {
+        'premium': '0 20px 50px -12px rgba(0, 82, 204, 0.15)',
+        'vibrant': '0 20px 40px -15px rgba(0, 163, 255, 0.3)',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
