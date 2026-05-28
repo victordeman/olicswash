@@ -14,17 +14,24 @@ import {
   Clock,
   ShieldCheck,
   Star,
-  ArrowRight
+  ArrowRight,
+  Scissors
 } from "lucide-react";
 import Link from "next/link";
 
 export default function HomePage() {
   const services = [
     {
-      title: "Self Service",
+      title: "Washing / Drying",
       description: "Fast and easy self-service laundry for those on the go.",
       icon: User,
       color: "text-blue-600"
+    },
+    {
+      title: "Ironing Only",
+      description: "Professional ironing and pressing for all garment types.",
+      icon: Scissors,
+      color: "text-accent"
     },
     {
       title: "Bulk Order",
@@ -230,7 +237,7 @@ export default function HomePage() {
                 Book a Wash Now
               </Button>
             </Link>
-            <a href="https://wa.me/2348032399944">
+            <a href="https://wa.me/2348108690772">
               <Button size="lg" variant="whatsapp" className="h-16 px-10 text-xl shadow-2xl">
                 Chat with us on WhatsApp
               </Button>

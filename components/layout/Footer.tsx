@@ -25,7 +25,7 @@ const Footer = () => {
                 { icon: FaFacebookF, href: "#" },
                 { icon: FaInstagram, href: "#" },
                 { icon: FaXTwitter, href: "#" },
-                { icon: FaWhatsapp, href: "https://wa.me/2348032399944" }
+                { icon: FaWhatsapp, href: "https://wa.me/2348108690772" }
               ].map((social, i) => (
                 <Link
                   key={i}
