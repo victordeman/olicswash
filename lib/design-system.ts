@@ -38,7 +38,7 @@ export const branding = {
   name: "OLICS WASH",
   tagline: "Your Best Plug In",
   fullTagline: "Your Best Plug In | Professional Laundry",
-  whatsapp: "https://wa.me/2348032399944",
+  whatsapp: "https://wa.me/2348108690772",
   phone: ["0810 869 0772", "0802 323 9944"],
   email: "olicslimited@gmail.com",
   locations: [

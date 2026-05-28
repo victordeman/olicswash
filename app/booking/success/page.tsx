@@ -30,7 +30,7 @@ export default function SuccessPage() {
 
           <div className="pt-8 border-t mt-8">
             <p className="text-sm text-gray-400 mb-4">Need immediate assistance?</p>
-            <a href="https://wa.me/2348032399944">
+            <a href="https://wa.me/2348108690772">
               <Button variant="whatsapp" className="w-full h-12 rounded-xl font-bold">
                 <MessageSquare className="mr-2 h-5 w-5" /> Chat on WhatsApp
               </Button>

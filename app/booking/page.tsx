@@ -7,7 +7,7 @@ import * as z from "zod";
 import {
   Shirt, Wind, Truck, Home, User, Layers, ShieldCheck,
   ChevronRight, ChevronLeft, Calendar, MapPin,
-  Phone, User as UserIcon, CheckCircle2, CreditCard, Loader2, Mail
+  Phone, User as UserIcon, CheckCircle2, CreditCard, Loader2, Mail, Scissors
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,8 @@ const bookingSchema = z.object({
 type BookingFormValues = z.infer<typeof bookingSchema>;
 
 const ALL_SERVICES = [
-  { id: "s1", name: "Self Service Laundry", price: 2500, icon: User },
+  { id: "s1", name: "Washing / Drying Only", price: 2500, icon: User },
+  { id: "s8", name: "Ironing Only", price: 700, icon: Scissors },
   { id: "s2", name: "Bulk Order / Wash", price: 15000, icon: Layers },
   { id: "s3", name: "Wash, Fold & Press", price: 3500, icon: Shirt },
   { id: "s4", name: "Pick Up & Delivery", price: 1500, icon: Truck },
