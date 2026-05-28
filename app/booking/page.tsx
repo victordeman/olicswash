@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
-  Shirt, Wind, Package, Truck, Home, User, Layers, ShieldCheck,
+  Shirt, Wind, Truck, Home, User, Layers, ShieldCheck,
   ChevronRight, ChevronLeft, Calendar, MapPin,
   Phone, User as UserIcon, CheckCircle2, CreditCard, Loader2, Mail
 } from "lucide-react";
@@ -48,7 +48,6 @@ const ALL_SERVICES = [
   { id: "s5", name: "Drop-off Laundry", price: 2000, icon: Wind },
   { id: "s6", name: "Fumigation / Biohazard", price: 25000, icon: ShieldCheck },
   { id: "s7", name: "Industrial / Domestic Cleaning", price: 20000, icon: Home },
-  { id: "s8", name: "Supplies / Procurements", price: 10000, icon: Package },
 ];
 
 export default function BookingPage() {

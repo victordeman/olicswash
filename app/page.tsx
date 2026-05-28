@@ -39,12 +39,6 @@ export default function HomePage() {
       color: "text-green-600"
     },
     {
-      title: "Supplies / Procurements",
-      description: "Quality laundry chemicals and professional equipment supply.",
-      icon: Package,
-      color: "text-orange-600"
-    },
-    {
       title: "Industrial / Domestic Cleaning",
       description: "Comprehensive cleaning solutions for homes and industries.",
       icon: Home,

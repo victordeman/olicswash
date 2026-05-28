@@ -44,6 +44,7 @@ const Footer = () => {
               {[
                 { name: 'Home', href: '/' },
                 { name: 'Our Services', href: '/services' },
+                { name: 'Prices', href: '/prices' },
                 { name: 'Book a Wash', href: '/booking' },
                 { name: 'Track Order', href: '/track' },
                 { name: 'Contact Us', href: '/contact' }
@@ -65,12 +66,6 @@ const Footer = () => {
                 <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-primary/10 text-primary-bright border border-primary/20 transition-colors group-hover:bg-primary group-hover:text-white">
                   <MapPin className="h-5 w-5" />
                 </div>
-                <span className="text-gray-400 font-medium text-lg">14 Khana Street, D/Line,<br/>Port Harcourt</span>
-              </li>
-              <li className="flex items-start gap-4 group">
-                <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-primary/10 text-primary-bright border border-primary/20 transition-colors group-hover:bg-primary group-hover:text-white">
-                  <MapPin className="h-5 w-5" />
-                </div>
                 <span className="text-gray-400 font-medium text-lg">33 Igboukwu Street, D/Line,<br/>Port Harcourt</span>
               </li>
             </ul>
@@ -83,13 +78,13 @@ const Footer = () => {
                 <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-success/10 text-success border border-success/20 transition-colors group-hover:bg-success group-hover:text-white">
                   <Phone className="h-5 w-5" />
                 </div>
-                <span className="text-gray-400 font-bold text-lg">0811 442 2088</span>
+                <span className="text-gray-400 font-bold text-lg">0810 869 0772</span>
               </li>
               <li className="flex items-center gap-4 group">
                 <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-success/10 text-success border border-success/20 transition-colors group-hover:bg-success group-hover:text-white">
                   <Phone className="h-5 w-5" />
                 </div>
-                <span className="text-gray-400 font-bold text-lg">0810 869 0772</span>
+                <span className="text-gray-400 font-bold text-lg">0802 323 9944</span>
               </li>
               <li className="flex items-center gap-4 group">
                 <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-primary/10 text-primary-bright border border-primary/20 transition-colors group-hover:bg-primary group-hover:text-white">

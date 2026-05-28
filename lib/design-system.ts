@@ -39,10 +39,9 @@ export const branding = {
   tagline: "Your Best Plug In",
   fullTagline: "Your Best Plug In | Professional Laundry",
   whatsapp: "https://wa.me/2348032399944",
-  phone: ["0811 442 2088", "0810 869 0772"],
+  phone: ["0810 869 0772", "0802 323 9944"],
   email: "olicslimited@gmail.com",
   locations: [
-    "14 Khana Street, D/Line, Port Harcourt",
     "33 Igboukwu Street, D/Line, Port Harcourt"
   ]
 };
