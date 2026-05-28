@@ -95,14 +95,14 @@ export default function PricesPage() {
 
             <Tabs defaultValue="wash-dry" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-gray-100 rounded-2xl h-16">
-                <TabsTrigger
-                  value="wash-dry"
+                <TabsTrigger 
+                  value="wash-dry" 
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
                 >
                   <Shirt className="mr-2 h-5 w-5" /> Washing / Drying Only
                 </TabsTrigger>
-                <TabsTrigger
-                  value="ironing"
+                <TabsTrigger 
+                  value="ironing" 
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-accent data-[state=active]:shadow-sm"
                 >
                   <Scissors className="mr-2 h-5 w-5" /> Ironing Only
