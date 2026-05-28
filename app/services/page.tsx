@@ -3,7 +3,6 @@ import { ServiceCard } from "@/components/common/ServiceCard";
 import {
   Shirt,
   Wind,
-  Package,
   Truck,
   Home,
   User,
@@ -63,13 +62,6 @@ const services = [
     icon: Home,
     color: "text-primary",
     price: "₦20,000"
-  },
-  {
-    title: "Supplies / Procurements",
-    description: "Quality laundry chemicals and professional equipment supply for other cleaning businesses.",
-    icon: Package,
-    color: "text-orange-600",
-    price: "₦10,000"
   }
 ];
 
