@@ -4,7 +4,7 @@ import { Shield, Users, Award, Clock } from 'lucide-react'
 const stats = [
   { label: 'Happy Customers', value: '5,000+', icon: Users, color: 'text-primary-bright' },
   { label: 'Items Processed', value: '50k+', icon: Shield, color: 'text-success' },
-  { label: 'PH Locations', value: '02', icon: Clock, color: 'text-accent' },
+  { label: 'PH Location', value: '01', icon: Clock, color: 'text-accent' },
   { label: 'Quality Rating', value: '4.9/5', icon: Award, color: 'text-yellow-500' },
 ]
 
