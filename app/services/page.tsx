@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ServiceCard } from "@/components/common/ServiceCard";
 import {
@@ -16,99 +15,67 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PricingModal } from "@/components/PricingModal";
-import { WASH_DRY_PRICES, IRONING_PRICES } from "@/lib/pricing-data";
 
 const services = [
   {
     id: "wash-dry",
-    title: "WASHING / DRYING ONLY",
+    title: "Washing / Drying Only",
     description: "Fast and easy self-service laundry for those on the go. High-tech machines at your disposal.",
     icon: User,
-    color: "text-blue-600",
-    price: "₦2,500"
+    color: "text-blue-600"
   },
   {
     id: "ironing-only",
-    title: "IRONING ONLY",
+    title: "Ironing Only",
     description: "Professional ironing and pressing for all garment types. Crisp, neat results every time.",
     icon: Scissors,
-    color: "text-accent",
-    price: "₦700"
+    color: "text-accent"
   },
   {
     id: "bulk-order",
     title: "Bulk Order / Wash",
     description: "Large volume laundry services for hotels, hospitals, and organizations. Tailored pricing.",
     icon: Layers,
-    color: "text-purple-600",
-    price: "₦15,000"
+    color: "text-purple-600"
   },
   {
     id: "wash-fold-press",
     title: "Wash, Fold & Press",
     description: "Professional washing, precise folding, and crisp pressing. The gold standard for your daily wear.",
     icon: Shirt,
-    color: "text-blue-500",
-    price: "₦3,500"
+    color: "text-blue-500"
   },
   {
     id: "pickup-delivery",
     title: "Pick Up & Delivery",
     description: "Convenient laundry service right at your doorstep. We collect and return your fresh laundry.",
     icon: Truck,
-    color: "text-primary-bright",
-    price: "₦1,500"
+    color: "text-primary-bright"
   },
   {
     id: "drop-off",
     title: "Drop-off Laundry",
     description: "Simply drop your clothes with us and pick them up clean and fresh. Perfect for busy professionals.",
     icon: Wind,
-    color: "text-accent",
-    price: "₦2,000"
+    color: "text-accent"
   },
   {
     id: "fumigation",
     title: "Fumigation / Biohazard",
     description: "Professional pest control and biohazard decontamination services using eco-friendly chemicals.",
     icon: ShieldCheck,
-    color: "text-green-600",
-    price: "₦25,000"
+    color: "text-green-600"
   },
   {
     id: "industrial-cleaning",
     title: "Industrial / Domestic Cleaning",
     description: "Deep cleaning solutions for homes, offices, and industries. Every corner polished to perfection.",
     icon: Home,
-    color: "text-primary",
-    price: "₦20,000"
+    color: "text-primary"
   }
 ];
 
 export default function ServicesPage() {
-  const [modalState, setModalState] = useState<{
-    isOpen: boolean;
-    title: string;
-    prices: typeof WASH_DRY_PRICES;
-  }>({
-    isOpen: false,
-    title: "",
-    prices: [],
-  });
-
-  const openModal = (title: string, prices: typeof WASH_DRY_PRICES) => {
-    setModalState({
-      isOpen: true,
-      title,
-      prices,
-    });
-  };
-
-  const closeModal = () => {
-    setModalState((prev) => ({ ...prev, isOpen: false }));
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -129,24 +96,15 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 xl:gap-16">
             {services.map((service, index) => (
-              <div key={index} onClick={(e) => {
-                if (service.id === "wash-dry") {
-                  e.preventDefault();
-                  openModal("WASHING / DRYING ONLY", WASH_DRY_PRICES);
-                } else if (service.id === "ironing-only") {
-                  e.preventDefault();
-                  openModal("IRONING ONLY", IRONING_PRICES);
-                }
-              }}>
+              <div key={index}>
                 <ServiceCard
                   title={service.title}
                   description={service.description}
                   icon={service.icon}
                   iconColor={service.color}
-                  price={service.price}
                   ctaText="Book This Service"
                   detailed={true}
-                  href={service.id === "wash-dry" || service.id === "ironing-only" ? "#" : "/booking"}
+                  href="/booking"
                 />
               </div>
             ))}
@@ -183,13 +141,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-
-      <PricingModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        title={modalState.title}
-        prices={modalState.prices}
-      />
     </div>
   );
 }

@@ -22,7 +22,7 @@ import Link from "next/link";
 export default function HomePage() {
   const services = [
     {
-      title: "Washing / Drying",
+      title: "Washing / Drying Only",
       description: "Fast and easy self-service laundry for those on the go.",
       icon: User,
       color: "text-blue-600"
@@ -34,10 +34,28 @@ export default function HomePage() {
       color: "text-accent"
     },
     {
-      title: "Bulk Order",
+      title: "Bulk Order / Wash",
       description: "Large volume laundry services for hotels, hospitals, and more.",
       icon: Layers,
       color: "text-purple-600"
+    },
+    {
+      title: "Wash, Fold & Press",
+      description: "Professional washing, precise folding, and crisp pressing.",
+      icon: Shirt,
+      color: "text-blue-500"
+    },
+    {
+      title: "Pick Up & Delivery",
+      description: "Convenient laundry service right at your doorstep.",
+      icon: Truck,
+      color: "text-primary-bright"
+    },
+    {
+      title: "Drop-off Laundry",
+      description: "Drop your clothes and pick them up clean and fresh.",
+      icon: Wind,
+      color: "text-accent"
     },
     {
       title: "Fumigation / Biohazard",
@@ -50,24 +68,6 @@ export default function HomePage() {
       description: "Comprehensive cleaning solutions for homes and industries.",
       icon: Home,
       color: "text-primary"
-    },
-    {
-      title: "Pick Up & Delivery",
-      description: "Convenient laundry service right at your doorstep.",
-      icon: Truck,
-      color: "text-primary-bright"
-    },
-    {
-      title: "Wash, Fold & Press",
-      description: "Professional washing, precise folding, and crisp pressing.",
-      icon: Shirt,
-      color: "text-blue-500"
-    },
-    {
-      title: "Drop-off Laundry",
-      description: "Drop your clothes and pick them up clean and fresh.",
-      icon: Wind,
-      color: "text-accent"
     }
   ];
 
