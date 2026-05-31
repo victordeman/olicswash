@@ -13,7 +13,6 @@ interface ServiceCardProps {
   href?: string
   className?: string
   iconColor?: string
-  price?: string
   detailed?: boolean
 }
 
@@ -25,7 +24,6 @@ export const ServiceCard = ({
   href = "/booking",
   className,
   iconColor = "text-primary",
-  price,
   detailed = false
 }: ServiceCardProps) => {
   if (detailed) {
@@ -46,11 +44,6 @@ export const ServiceCard = ({
             <div className="space-y-4 flex-grow">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                 <CardTitle className="text-3xl font-black text-navy">{title}</CardTitle>
-                {price && (
-                  <span className="text-2xl font-black text-primary bg-primary/5 px-5 py-2 rounded-2xl border border-primary/10">
-                    {price}
-                  </span>
-                )}
               </div>
               <p className="text-xl text-gray-500 leading-relaxed font-medium">
                 {description}
