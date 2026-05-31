@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { Providers } from "@/components/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,15 +48,12 @@ export default function RootLayout({
         "min-h-screen bg-background font-sans antialiased",
         inter.variable
       )}>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">
+        <Providers>
+          <div className="flex min-h-screen flex-col">
             {children}
-          </main>
-          <Footer />
-          <WhatsAppButton />
-          <Toaster position="top-center" richColors />
-        </div>
+            <Toaster position="top-center" richColors />
+          </div>
+        </Providers>
       </body>
     </html>
   );

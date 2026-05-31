@@ -7,4 +7,20 @@ declare module "next-auth" {
       role: UserRole
     } & DefaultSession["user"]
   }
+
+  interface User {
+    role: UserRole
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role: UserRole
+  }
+}
+
+declare module "@auth/core/adapters" {
+  interface AdapterUser {
+    role: UserRole
+  }
 }

@@ -24,7 +24,13 @@ cp .env.example .env
 ```
 
 ### 3. Database Setup
-Initialize the database using Prisma.
+**Note on Database Provider:**
+For local development, the project is configured to use **SQLite** (via `prisma/schema.prisma`).
+To switch back to **PostgreSQL** (for production deployment on Vercel/Supabase/Neon):
+1. Update `prisma/schema.prisma` to change `provider` to `"postgresql"` and `url` to `env("DATABASE_URL")`.
+2. Restore `@db.Text` attributes on fields in the `Account` model.
+
+Initialize the local database:
 ```bash
 npx prisma db push
 ```
