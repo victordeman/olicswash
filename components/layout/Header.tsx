@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, LayoutDashboard } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useSession } from 'next-auth/react'
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -16,6 +17,8 @@ const navLinks = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { data: session } = useSession()
+  const isAdmin = session?.user?.role === "ADMIN"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,6 +54,16 @@ const Header = () => {
               <span className="absolute -bottom-2 left-0 w-0 h-1 bg-primary-bright transition-all group-hover:w-full rounded-full" />
             </Link>
           ))}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-2 text-sm font-black text-primary-bright uppercase tracking-widest hover:text-primary transition-all relative group"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Admin
+              <span className="absolute -bottom-2 left-0 w-0 h-1 bg-primary transition-all group-hover:w-full rounded-full" />
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -85,6 +98,16 @@ const Header = () => {
               {link.name}
             </Link>
           ))}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="text-2xl font-black text-primary-bright hover:text-primary uppercase tracking-tighter flex items-center gap-3"
+              onClick={() => setIsOpen(false)}
+            >
+              <LayoutDashboard className="h-6 w-6" />
+              Admin Panel
+            </Link>
+          )}
           <Link href="/booking" onClick={() => setIsOpen(false)}>
             <Button variant="primary" className="w-full h-16 text-xl font-black uppercase">
               Book a Wash

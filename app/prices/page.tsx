@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Shirt, Scissors, ChevronRight } from "lucide-react";
+import { Search, Shirt, Scissors, ChevronRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import {
   Table,
@@ -15,16 +15,42 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WASH_DRY_PRICES, IRONING_PRICES } from "@/lib/pricing-data";
+import { getServicePrices } from "@/actions/prices";
+
+interface SerializedServicePrice {
+  id: string;
+  category: string;
+  sn: number;
+  description: string;
+  amount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export default function PricesPage() {
   const [search, setSearch] = useState("");
+  const [prices, setPrices] = useState<SerializedServicePrice[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredWashDry = WASH_DRY_PRICES.filter((item) =>
+  useEffect(() => {
+    async function loadPrices() {
+      setLoading(true);
+      const result = await getServicePrices();
+      if (result.success) {
+        setPrices(result.data as SerializedServicePrice[] || []);
+      }
+      setLoading(false);
+    }
+    loadPrices();
+  }, []);
+
+  const filteredWashDry = prices.filter((item) =>
+    item.category === "WASHING_DRYING" &&
     item.description.toLowerCase().includes(search.toLowerCase())
   );
 
-  const filteredIroning = IRONING_PRICES.filter((item) =>
+  const filteredIroning = prices.filter((item) =>
+    item.category === "IRONING" &&
     item.description.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -59,88 +85,95 @@ export default function PricesPage() {
               />
             </div>
 
-            <Tabs defaultValue="wash-dry" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-gray-100 rounded-2xl h-16">
-                <TabsTrigger 
-                  value="wash-dry" 
-                  className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
-                >
-                  <Shirt className="mr-2 h-5 w-5" /> Washing / Drying Only
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="ironing" 
-                  className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-accent data-[state=active]:shadow-sm"
-                >
-                  <Scissors className="mr-2 h-5 w-5" /> Ironing Only
-                </TabsTrigger>
-              </TabsList>
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-24">
+                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <p className="text-gray-500 font-bold italic text-lg">Fetching latest prices...</p>
+              </div>
+            ) : (
+              <Tabs defaultValue="wash-dry" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-gray-100 rounded-2xl h-16">
+                  <TabsTrigger
+                    value="wash-dry"
+                    className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+                  >
+                    <Shirt className="mr-2 h-5 w-5" /> Washing / Drying Only
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="ironing"
+                    className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-accent data-[state=active]:shadow-sm"
+                  >
+                    <Scissors className="mr-2 h-5 w-5" /> Ironing Only
+                  </TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="wash-dry" className="animate-in fade-in-50 duration-500">
-                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
-                  <Table>
-                    <TableHeader className="bg-gray-50/50">
-                      <TableRow className="hover:bg-transparent border-b-2">
-                        <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
-                        <TableHead className="font-black text-navy py-6">Description</TableHead>
-                        <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredWashDry.length > 0 ? (
-                        filteredWashDry.map((item) => (
-                          <TableRow key={item.id} className="group hover:bg-primary/5 transition-colors">
-                            <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.id}</TableCell>
-                            <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
-                            <TableCell className="text-right font-black text-primary py-5 pr-8">
-                              {item.amount.toLocaleString()}
+                <TabsContent value="wash-dry" className="animate-in fade-in-50 duration-500">
+                  <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
+                    <Table>
+                      <TableHeader className="bg-gray-50/50">
+                        <TableRow className="hover:bg-transparent border-b-2">
+                          <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
+                          <TableHead className="font-black text-navy py-6">Description</TableHead>
+                          <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredWashDry.length > 0 ? (
+                          filteredWashDry.map((item) => (
+                            <TableRow key={item.id} className="group hover:bg-primary/5 transition-colors">
+                              <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.sn}</TableCell>
+                              <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
+                              <TableCell className="text-right font-black text-primary py-5 pr-8">
+                                {item.amount.toLocaleString()}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
+                              No items found matching your search.
                             </TableCell>
                           </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
-                            No items found matching your search.
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TabsContent>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabsContent>
 
-              <TabsContent value="ironing" className="animate-in fade-in-50 duration-500">
-                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
-                  <Table>
-                    <TableHeader className="bg-gray-50/50">
-                      <TableRow className="hover:bg-transparent border-b-2">
-                        <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
-                        <TableHead className="font-black text-navy py-6">Description</TableHead>
-                        <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredIroning.length > 0 ? (
-                        filteredIroning.map((item) => (
-                          <TableRow key={item.id} className="group hover:bg-accent/5 transition-colors">
-                            <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.id}</TableCell>
-                            <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
-                            <TableCell className="text-right font-black text-accent py-5 pr-8">
-                              {item.amount.toLocaleString()}
+                <TabsContent value="ironing" className="animate-in fade-in-50 duration-500">
+                  <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
+                    <Table>
+                      <TableHeader className="bg-gray-50/50">
+                        <TableRow className="hover:bg-transparent border-b-2">
+                          <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
+                          <TableHead className="font-black text-navy py-6">Description</TableHead>
+                          <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredIroning.length > 0 ? (
+                          filteredIroning.map((item) => (
+                            <TableRow key={item.id} className="group hover:bg-accent/5 transition-colors">
+                              <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.sn}</TableCell>
+                              <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
+                              <TableCell className="text-right font-black text-accent py-5 pr-8">
+                                {item.amount.toLocaleString()}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
+                              No items found matching your search.
                             </TableCell>
                           </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
-                            No items found matching your search.
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-              </TabsContent>
-            </Tabs>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            )}
 
             <div className="mt-12 p-8 rounded-3xl bg-blue-50 border border-blue-100">
               <p className="text-navy font-bold text-lg mb-2">Note:</p>
