@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 import { Providers } from "@/components/Providers";
@@ -53,12 +50,7 @@ export default function RootLayout({
       )}>
         <Providers>
           <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-            <WhatsAppButton />
+            {children}
             <Toaster position="top-center" richColors />
           </div>
         </Providers>
