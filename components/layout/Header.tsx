@@ -10,7 +10,6 @@ import { useSession } from 'next-auth/react'
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Services', href: '/services' },
-  { name: 'Prices', href: '/prices' },
   { name: 'Book Now', href: '/booking' },
 ]
 

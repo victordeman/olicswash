@@ -213,7 +213,6 @@ export default function BookingPage() {
                               </div>
                               <div className="flex-grow cursor-pointer" onClick={() => toggleService(service)}>
                                 <h4 className="font-bold text-navy">{service.name}</h4>
-                                <p className="text-sm font-black text-primary">₦{service.price.toLocaleString()}</p>
                               </div>
                               {isSelected && (
                                 <div className="flex items-center gap-3 bg-white rounded-xl border p-1">
@@ -313,12 +312,12 @@ export default function BookingPage() {
                             <p className="font-bold">{s.name}</p>
                             <p className="text-sm text-gray-500">Qty: {s.quantity}</p>
                           </div>
-                          <p className="font-black text-primary">₦{(s.price * s.quantity).toLocaleString()}</p>
                         </div>
                       ))}
-                      <div className="border-t pt-4 mt-4 flex justify-between items-center">
-                        <p className="text-xl font-black">Estimated Total</p>
-                        <p className="text-3xl font-black text-primary">₦{subtotal.toLocaleString()}</p>
+                      <div className="border-t pt-6 mt-4">
+                        <p className="text-gray-500 font-medium italic">
+                          &quot;A detailed quote will be provided based on your specific order. Our team ensures fair and personalized service costs.&quot;
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -331,11 +330,11 @@ export default function BookingPage() {
                     </div>
                     <div className="space-y-2">
                        <h3 className="text-3xl font-black">Final Step</h3>
-                       <p className="text-gray-500">Securely pay for your service using Paystack.</p>
+                       <p className="text-gray-500">Securely proceed to finalize your booking.</p>
                     </div>
                     <div className="rounded-3xl bg-navy p-10 text-white">
-                       <p className="text-gray-400 uppercase font-bold tracking-widest mb-2">Total Payable</p>
-                       <p className="text-5xl font-black">₦{subtotal.toLocaleString()}</p>
+                       <p className="text-gray-400 uppercase font-bold tracking-widest mb-2">Booking Confirmation</p>
+                       <p className="text-2xl font-black">Confirm your order to receive your customized quote.</p>
                     </div>
                   </div>
                 )}
@@ -352,7 +351,7 @@ export default function BookingPage() {
                     </Button>
                   ) : (
                     <Button type="submit" size="lg" className="h-14 flex-grow rounded-xl font-bold" disabled={isSubmitting}>
-                      {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Processing...</> : "Pay Now with Paystack"}
+                      {isSubmitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Processing...</> : "Confirm & Proceed"}
                     </Button>
                   )}
                 </div>

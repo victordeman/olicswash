@@ -1,58 +1,71 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Shirt, Scissors, ChevronRight, Loader2 } from "lucide-react";
+import { MessageCircle, Calendar, Send, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getServicePrices } from "@/actions/prices";
-
-interface SerializedServicePrice {
-  id: string;
-  category: string;
-  sn: number;
-  description: string;
-  amount: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function PricesPage() {
-  const [search, setSearch] = useState("");
-  const [prices, setPrices] = useState<SerializedServicePrice[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    serviceType: "",
+    message: ""
+  });
 
-  useEffect(() => {
-    async function loadPrices() {
-      setLoading(true);
-      const result = await getServicePrices();
-      if (result.success) {
-        setPrices(result.data as SerializedServicePrice[] || []);
-      }
-      setLoading(false);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, serviceType: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Form validation
+    if (!formData.fullName || !formData.phone || !formData.serviceType) {
+      toast.error("Please fill in all required fields.");
+      setIsSubmitting(false);
+      return;
     }
-    loadPrices();
-  }, []);
 
-  const filteredWashDry = prices.filter((item) =>
-    item.category === "WASHING_DRYING" &&
-    item.description.toLowerCase().includes(search.toLowerCase())
-  );
+    // Prepare WhatsApp message
+    const message = `*New Quote Request*%0A%0A*Name:* ${formData.fullName}%0A*Phone:* ${formData.phone}%0A*Service:* ${formData.serviceType}%0A*Details:* ${formData.message || 'None'}`;
 
-  const filteredIroning = prices.filter((item) =>
-    item.category === "IRONING" &&
-    item.description.toLowerCase().includes(search.toLowerCase())
-  );
+    // Simulate processing
+    setTimeout(() => {
+      toast.success("Quote request prepared! Redirecting to WhatsApp...");
+      setIsSubmitting(false);
+
+      // Open WhatsApp
+      window.open(`https://wa.me/2348108690772?text=${message}`, '_blank');
+
+      // Reset form
+      setFormData({
+        fullName: "",
+        phone: "",
+        serviceType: "",
+        message: ""
+      });
+    }, 1500);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -61,133 +74,141 @@ export default function PricesPage() {
         <div className="absolute top-0 right-0 -mr-24 -mt-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
           <SectionHeader
-            title="Transparent Pricing"
-            subtitle="Explore our competitive and transparent pricing for all your laundry needs."
+            title="Service Quotes"
+            subtitle="Customized and fair pricing tailored to your specific laundry and cleaning needs."
             invert
             className="mb-0"
           />
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Pricing Information Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto">
-            {/* Search Bar */}
-            <div className="relative mb-12">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <Input
-                type="text"
-                placeholder="Search for an item (e.g. Shirt, Duvet...)"
-                className="pl-12 h-14 rounded-2xl border-gray-200 bg-white shadow-sm text-lg"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-24">
-                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-                <p className="text-gray-500 font-bold italic text-lg">Fetching latest prices...</p>
-              </div>
-            ) : (
-              <Tabs defaultValue="wash-dry" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-gray-100 rounded-2xl h-16">
-                  <TabsTrigger
-                    value="wash-dry"
-                    className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
-                  >
-                    <Shirt className="mr-2 h-5 w-5" /> Washing / Drying Only
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="ironing"
-                    className="rounded-xl font-bold text-lg data-[state=active]:bg-white data-[state=active]:text-accent data-[state=active]:shadow-sm"
-                  >
-                    <Scissors className="mr-2 h-5 w-5" /> Ironing Only
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="wash-dry" className="animate-in fade-in-50 duration-500">
-                  <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
-                    <Table>
-                      <TableHeader className="bg-gray-50/50">
-                        <TableRow className="hover:bg-transparent border-b-2">
-                          <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
-                          <TableHead className="font-black text-navy py-6">Description</TableHead>
-                          <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredWashDry.length > 0 ? (
-                          filteredWashDry.map((item) => (
-                            <TableRow key={item.id} className="group hover:bg-primary/5 transition-colors">
-                              <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.sn}</TableCell>
-                              <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
-                              <TableCell className="text-right font-black text-primary py-5 pr-8">
-                                {item.amount.toLocaleString()}
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
-                              No items found matching your search.
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="ironing" className="animate-in fade-in-50 duration-500">
-                  <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
-                    <Table>
-                      <TableHeader className="bg-gray-50/50">
-                        <TableRow className="hover:bg-transparent border-b-2">
-                          <TableHead className="w-[80px] font-black text-navy py-6 pl-8">S/N</TableHead>
-                          <TableHead className="font-black text-navy py-6">Description</TableHead>
-                          <TableHead className="text-right font-black text-navy py-6 pr-8">Amount (₦)</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredIroning.length > 0 ? (
-                          filteredIroning.map((item) => (
-                            <TableRow key={item.id} className="group hover:bg-accent/5 transition-colors">
-                              <TableCell className="font-bold text-gray-400 pl-8 py-5">{item.sn}</TableCell>
-                              <TableCell className="font-bold text-navy py-5">{item.description}</TableCell>
-                              <TableCell className="text-right font-black text-accent py-5 pr-8">
-                                {item.amount.toLocaleString()}
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center py-12 text-gray-500 font-medium">
-                              No items found matching your search.
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            )}
-
-            <div className="mt-12 p-8 rounded-3xl bg-blue-50 border border-blue-100">
-              <p className="text-navy font-bold text-lg mb-2">Note:</p>
-              <p className="text-gray-600 font-medium">
-                Prices are subject to change. Contact us for bulk orders and special requests.
+            <div className="bg-white rounded-[3rem] shadow-xl p-10 md:p-16 border border-gray-100 text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-black text-navy mb-6">
+                Custom Quotes for Your Needs
+              </h2>
+              <p className="text-xl text-gray-600 leading-relaxed font-medium mb-10">
+                At OLICS WASH, we believe in providing fair and accurate quotes based on the specific requirements of your order.
+                Costs vary depending on garment type, volume, specific care instructions, and whether pickup/delivery is required.
               </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div className="p-8 rounded-3xl bg-blue-50 border border-blue-100 text-left">
+                  <h4 className="font-black text-navy text-xl mb-3">Individual Items</h4>
+                  <p className="text-gray-600 font-medium text-lg">
+                    From daily wear to delicate fabrics, we provide specialized care for every piece in your wardrobe.
+                  </p>
+                </div>
+                <div className="p-8 rounded-3xl bg-purple-50 border border-purple-100 text-left">
+                  <h4 className="font-black text-navy text-xl mb-3">Bulk & Corporate</h4>
+                  <p className="text-gray-600 font-medium text-lg">
+                    Specialized rates for hotels, hospitals, and large-scale domestic requirements.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <Link href="/booking" className="w-full sm:w-auto">
+                  <Button size="lg" className="h-16 px-10 text-lg font-black rounded-2xl w-full shadow-premium group">
+                    <Calendar className="mr-2 h-6 w-6" /> Book a Service
+                  </Button>
+                </Link>
+                <a href="https://wa.me/2348108690772" className="w-full sm:w-auto">
+                  <Button size="lg" variant="whatsapp" className="h-16 px-10 text-lg font-black rounded-2xl w-full shadow-premium group">
+                    <MessageCircle className="mr-2 h-6 w-6" /> Quick Chat
+                  </Button>
+                </a>
+              </div>
             </div>
 
-            <div className="mt-16 text-center">
-              <Link href="/booking">
-                <Button size="lg" className="h-16 px-12 text-xl font-black rounded-2xl shadow-premium group">
-                  Book Now <ChevronRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
+            {/* Quote Inquiry Form */}
+            <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-gray-100">
+               <div className="bg-navy p-10 text-white text-center">
+                  <h3 className="text-3xl font-black mb-2">Request a Quote</h3>
+                  <p className="text-gray-400 font-medium">Fill in the details below and we&apos;ll get back to you with a custom estimate.</p>
+               </div>
+               <div className="p-10 md:p-16">
+                  <form onSubmit={handleSubmit} className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-3">
+                          <Label htmlFor="fullName" className="text-lg font-bold text-navy">Full Name</Label>
+                          <Input
+                            id="fullName"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleInputChange}
+                            placeholder="John Doe"
+                            className="h-14 rounded-xl border-2 focus:border-primary text-lg"
+                            required
+                          />
+                       </div>
+                       <div className="space-y-3">
+                          <Label htmlFor="phone" className="text-lg font-bold text-navy">Phone / WhatsApp</Label>
+                          <Input
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            placeholder="0803 123 4567"
+                            className="h-14 rounded-xl border-2 focus:border-primary text-lg"
+                            required
+                          />
+                       </div>
+                    </div>
+
+                    <div className="space-y-3">
+                       <Label htmlFor="serviceType" className="text-lg font-bold text-navy">Service Type</Label>
+                       <Select onValueChange={handleSelectChange} value={formData.serviceType}>
+                          <SelectTrigger className="h-14 rounded-xl border-2 focus:border-primary text-lg">
+                             <SelectValue placeholder="Select the service you need" />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-xl">
+                             <SelectItem value="Wash, Fold & Press">Wash, Fold & Press</SelectItem>
+                             <SelectItem value="Washing / Drying Only">Washing / Drying Only</SelectItem>
+                             <SelectItem value="Ironing Only">Ironing Only</SelectItem>
+                             <SelectItem value="Bulk Order / Wash">Bulk Order / Wash</SelectItem>
+                             <SelectItem value="Fumigation / Biohazard">Fumigation / Biohazard</SelectItem>
+                             <SelectItem value="Industrial / Domestic Cleaning">Industrial / Domestic Cleaning</SelectItem>
+                          </SelectContent>
+                       </Select>
+                    </div>
+
+                    <div className="space-y-3">
+                       <Label htmlFor="message" className="text-lg font-bold text-navy">Message / Additional Details</Label>
+                       <Textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          placeholder="Tell us more about your needs (e.g., number of items, specific fabrics, pickup location...)"
+                          className="min-h-[150px] rounded-2xl border-2 focus:border-primary text-lg p-5"
+                       />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full h-16 rounded-2xl font-black text-xl shadow-premium"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <><Loader2 className="mr-2 h-6 w-6 animate-spin" /> Preparing...</>
+                      ) : (
+                        <><Send className="mr-2 h-6 w-6" /> Submit Quote Request</>
+                      )}
+                    </Button>
+                  </form>
+               </div>
+            </div>
+
+            <div className="mt-12 p-8 rounded-3xl bg-navy text-white text-center">
+              <p className="font-bold text-lg mb-2 text-primary-bright">Need a detailed quote?</p>
+              <p className="text-gray-300 font-medium max-w-2xl mx-auto">
+                Our team is ready to provide you with a comprehensive breakdown. Contact us for bulk orders, special requests, and corporate accounts.
+              </p>
             </div>
           </div>
         </div>

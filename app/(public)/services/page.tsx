@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   Zap,
   Scissors,
-  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -111,9 +110,9 @@ export default function ServicesPage() {
           </div>
 
           <div className="mt-16 text-center">
-            <Link href="/prices" className="inline-flex items-center text-primary font-bold text-lg hover:underline decoration-2 underline-offset-4">
-              View full price list <ChevronRight className="ml-1 h-5 w-5" />
-            </Link>
+            <p className="text-gray-500 font-bold text-lg">
+              For a custom quote tailored to your needs, simply book a service or chat with us on WhatsApp.
+            </p>
           </div>
         </div>
       </section>

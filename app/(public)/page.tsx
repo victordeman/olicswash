@@ -129,7 +129,7 @@ export default function HomePage() {
                 {[
                   { title: "Professional Staff", icon: User },
                   { title: "Reliable Service", icon: ShieldCheck },
-                  { title: "Affordable Prices", icon: Star },
+                  { title: "Premium Quality", icon: Star },
                   { title: "Fast Turnaround", icon: Clock }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 border border-transparent hover:border-primary/20 transition-all">
